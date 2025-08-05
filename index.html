@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BonBhojon - A Culinary Delight</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* New cartoon-like color palette */
+        :root {
+            --primary-color: #ff8c42; /* Bright Orange */
+            --secondary-color: #ffc971; /* Pastel Yellow */
+            --accent-color: #92e6a7; /* Mint Green */
+            --text-color: #4b4b4b; /* Dark Gray */
+            --background-color: #e4fce8; /* Light Pink */
+            --card-background: #fff8f0; /* Off-white */
+        }
+        body {
+            font-family: 'Balsamiq Sans', cursive;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Bouncy, cartoon-like animations */
+        .scroll-animation {
+            animation: scroll 40s linear infinite;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 1s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .fade-in-left {
+            animation: fadeInLeft 1s ease-out forwards;
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        .fade-in-right {
+            animation: fadeInRight 1s ease-out forwards;
+            opacity: 0;
+            transform: translateX(20px);
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInLeft {
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeInRight {
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .card-animation {
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55), box-shadow 0.3s ease-in-out;
+        }
+        .card-animation:hover {
+            transform: translateY(-10px) scale(1.05) rotate(2deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        /* New wiggle animation for the logo */
+        .logo-wiggle:hover {
+            animation: wiggle 0.5s ease-in-out infinite;
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+
+        .glowing-button {
+            transition: all 0.3s ease-in-out;
+            background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 8px 15px rgba(255, 140, 66, 0.5);
+        }
+        .glowing-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 20px rgba(255, 140, 66, 0.7);
+        }
+
+        /* Floating particles animation for hearts and flowers */
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .particle {
+            position: absolute;
+            bottom: -50px;
+            font-size: 2rem;
+            animation: floatUp 15s linear infinite;
+            opacity: 0;
+        }
+
+        .particle:nth-child(2n) { color: var(--primary-color); }
+        .particle:nth-child(3n) { color: var(--accent-color); }
+        .particle:nth-child(5n) { font-size: 1.5rem; }
+        .particle:nth-child(7n) { font-size: 2.5rem; }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-1000px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Hero image with a simple zoom effect */
+        .hero-img-container {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            animation: heroZoom 10s ease-in-out infinite alternate;
+        }
+        @keyframes heroZoom {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+
+
+        /*  #################################################   NAV MENU  ############################################################  */
+
+
+         /* Define your custom color variables for consistency */
+        :root {
+            --primary-color: #ff6347; /* Tomato Red */
+            --background-color: #fffaf0; /* Floral White */
+            --text-color: #333;
+            --border-color: #ffa07a; /* Light Salmon for borders */
+        }
+
+        /* Additional custom styles for a cute, cartoon aesthetic */
+        .logo-wiggle:hover {
+            animation: wiggle 0.5s ease-in-out infinite;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+
+        .nav-button {
+            position: relative;
+            padding: 8px 16px;
+            border-radius: 9999px; /* Pill-shaped buttons */
+            background-color: var(--background-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            color: var(--text-color); /* Ensure initial text color is readable */
+            border: 2px solid var(--border-color); /* Added border */
+            display: flex; /* To align emoji and text */
+            align-items: center; /* To vertically center emoji and text */
+            gap: 8px; /* Space between emoji and text */
+        }
+
+        .nav-button:hover {
+            transform: scale(1.1) translateY(-5px); /* Lift and grow effect */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            background-color: var(--primary-color);
+            color: white; /* Changed to white for visibility on hover */
+            border-color: var(--primary-color); /* Border color matches background on hover */
+        }
+
+        /* Mobile navigation links hover state */
+        #mobile-navigation a {
+            color: var(--text-color); /* Initial text color for mobile links */
+            transition: all 0.3s ease;
+        }
+
+        #mobile-navigation a:hover {
+            background-color: var(--primary-color);
+            color: white; /* Text color changes to white on hover for mobile */
+        }
+
+        /* Emoji styling */
+        .nav-emoji {
+            font-size: 1.2em; /* Adjust emoji size */
+            line-height: 1; /* Ensure emoji aligns well */
+        }
+
+
+        /*  #################################################   MAIN LANDING PAGE  HERE  ############################################################  */
+
+         /*
+           FIX: We are removing 'overflow: hidden' so the rest of the page can scroll.
+        */
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Hero section styling */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh; /* This keeps the hero section full-screen */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden; /* The hero section itself can hide its own overflow */
+        }
+        
+        /* The image inside the hero section */
+        .hero-img-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .hero-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            animation: heroZoom 10s ease-in-out infinite alternate;
+        }
+
+        /* Hero section animations */
+        @keyframes heroZoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        /* Custom color variables and other styles... */
+        :root {
+            --primary-color: #ff6347;
+            --card-background: #fffaf0;
+            --text-color: #333;
+        }
+
+
+
+ /* ... your other CSS will stay here ... */
+
+    /*
+       This is the change.
+       The animation is now applied directly to the 'logo-wiggle' class
+       so it runs continuously instead of only on hover.
+    */
+    .logo-wiggle {
+        animation: wiggle 0.5s ease-in-out infinite;
+    }
+
+    @keyframes wiggle {
+        0%, 100% { transform: rotate(-3deg); }
+        50% { transform: rotate(3deg); }
+    }
+
+    /* ... your other CSS will stay here ... */
+
+
+
+    </style>
+</head>
+<body class="bg-[var(--background-color)] text-[var(--text-color)]">
+
+    <!-- Floating hearts and flowers animation -->
+    <div class="floating-particles">
+    </div>
+
+    <!-- Header Navigation -->
+     <header class="fixed top-0 left-0 w-full z-50 bg-[var(--background-color)] shadow-xl backdrop-blur-sm bg-opacity-80 animate-fade-in-down" style="animation: fadeInUp 1s ease-out forwards;">
+        <nav class="container mx-auto p-4 flex justify-between items-center">
+                <div class="text-3xl font-extrabold text-[var(--primary-color)] logo-wiggle">🍽️ BonBhojon</div>
+
+            <button id="mobile-menu-button" class="md:hidden text-[var(--text-color)] text-3xl focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+
+            <div id="navigation-menu" class="hidden md:flex md:space-x-6 text-[var(--text-color)] font-bold">
+                <a href="#about" class="nav-button hover:text-[var(--primary-color)] transition-all duration-300 transform hover:scale-110 hover:shadow-lg">About</a>
+                <a href="#menu" class="nav-button hover:text-[var(--primary-color)] transition-all duration-300 transform hover:scale-110 hover:shadow-lg">Menu</a>
+                <a href="#feedback" class="nav-button hover:text-[var(--primary-color)] transition-all duration-300 transform hover:scale-110 hover:shadow-lg">Feedback</a>
+                <a href="#contact" class="nav-button hover:text-[var(--primary-color)] transition-all duration-300 transform hover:scale-110 hover:shadow-lg">Contact</a>
+            </div>
+        </nav>
+        
+        <div id="mobile-navigation" class="hidden md:hidden bg-[var(--background-color)] bg-opacity-90 shadow-lg p-4 text-center space-y-4">
+            <a href="#about" class="block text-[var(--text-color)] text-xl font-bold p-2 hover:bg-[var(--primary-color)] hover:text-white rounded-md transition-all duration-300">About</a>
+            <a href="#menu" class="block text-[var(--text-color)] text-xl font-bold p-2 hover:bg-[var(--primary-color)] hover:text-white rounded-md transition-all duration-300">Menu</a>
+            <a href="#feedback" class="block text-[var(--text-color)] text-xl font-bold p-2 hover:bg-[var(--primary-color)] hover:text-white rounded-md transition-all duration-300">Feedback</a>
+            <a href="#contact" class="block text-[var(--text-color)] text-xl font-bold p-2 hover:bg-[var(--primary-color)] hover:text-white rounded-md transition-all duration-300">Contact</a>
+        </div>
+    </header>
+
+
+     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-navigation');
+
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Optional: Hide the menu when a link is clicked
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        });
+    </script>
+
+
+    <!-- Hero Section -->
+    <section class="h-screen flex items-center justify-center text-center">
+        <div class="hero-img-container">
+             <img src="https://media.istockphoto.com/id/1829241109/photo/enjoying-a-brunch-together.jpg?s=612x612&w=0&k=20&c=9awLLRMBLeiYsrXrkgzkoscVU_3RoVwl_HA-OT-srjQ=" alt="Animated food hero">
+        </div>
+        <div class="absolute bg-[var(--card-background)] bg-opacity-90 p-12 rounded-[50px] shadow-2xl card-animation z-10 fade-in-up" style="animation-delay: 0.5s;">
+            <h1 class="text-7xl md:text-9xl font-extrabold text-[var(--primary-color)] leading-none">🍽️ BonBhojon</h1>
+            <p class="mt-4 text-2xl md:text-3xl font-light text-[var(--text-color)]">Where the Torsa whispers, and the food speaks!</p>
+            <a href="#menu" class="mt-8 inline-block glowing-button text-white font-bold py-4 px-10 rounded-full text-xl">Explore Menu</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="container mx-auto py-20 px-4 md:px-8">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div class="space-y-6 fade-in-left" style="animation-delay: 0.2s;">
+                <h2 class="text-6xl font-extrabold text-[var(--primary-color)]">Our Story</h2>
+                <p class="text-xl leading-relaxed text-[var(--text-color)]">
+                    Welcome to BonBhojon, a beautiful escape where a love for great food meets the serenity of nature.
+
+Step into a tranquil space meticulously decorated with the beauty of the outdoors. Here, lush trees are adorned with warm, gentle lights and elegant bamboo accents, creating a magical, silent environment that feels both peaceful and vibrant. It's a place where you can find beauty in every corner and a quiet spot to truly relax.
+
+Our diverse menu is crafted to be the perfect companion to this beautiful setting. From the rich flavors of our "Biriyani" and delicious "Momos" to classic comfort foods like "Sandwiches" and "Chowmein", we offer a culinary journey for every taste. Whether you're craving a hot cup of tea or a refreshing cold drink, BonBhojon is a place to find your perfect meal.
+                </p>
+                <p class="text-xl leading-relaxed text-[var(--text-color)]">
+                    Our location is what makes the experience truly special. Situated on the banks of the mighty Torsa River, you can enjoy a cool, gentle breeze and a stunning view while you dine. It's a peaceful sanctuary away from the city's hustle, just opposite Shree Shree Karunamayi High School and near Karunamayi Ghat. Come, find your perfect moment with us, and make beautiful memories by the river.
+                </p>
+            </div>
+            <div class="p-4 bg-[var(--card-background)] rounded-[40px] shadow-2xl card-animation fade-in-right" style="animation-delay: 0.4s;">
+                <img src="assets/pic1.png" alt="Cute Kitchen Cartoon GIF" class="rounded-[30px] w-full h-auto object-cover">
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="bg-[var(--card-background)] py-20 px-4 md:px-8">
+        <div class="container mx-auto text-center">
+            <h2 class="text-6xl font-extrabold text-[var(--primary-color)] mb-4 fade-in-up">Our Menu</h2>
+            <p class="text-xl text-[var(--text-color)] mb-8 max-w-2xl mx-auto fade-in-up" style="animation-delay: 0.2s;">
+                Explore our super tasty collection of dishes, from crunchy greens to sizzling treats!
+            </p>
+
+            <!-- Search Section -->
+            <div class="mb-10 w-full max-w-lg mx-auto fade-in-up" style="animation-delay: 0.4s;">
+                <input type="text" id="search-bar" placeholder="Search for a yummy dish..." class="w-full p-4 rounded-full shadow-lg border-4 border-[var(--secondary-color)] focus:border-[var(--primary-color)] outline-none transition-all duration-300 text-xl text-[var(--text-color)]">
+            </div>
+
+            <!-- Menu Tabs -->
+            <div class="flex flex-wrap justify-center space-x-2 md:space-x-6 mb-12 fade-in-up" style="animation-delay: 0.6s;">
+                <button onclick="filterMenu('all')" data-type="all" class="menu-tab glowing-button text-white font-bold py-3 px-6 md:px-10 rounded-full text-sm md:text-xl mb-2">All</button>
+                <button onclick="filterMenu('starters')" data-type="starters" class="menu-tab glowing-button text-white font-bold py-3 px-6 md:px-10 rounded-full text-sm md:text-xl mb-2 opacity-70">Starters</button>
+                <button onclick="filterMenu('main')" data-type="main" class="menu-tab glowing-button text-white font-bold py-3 px-6 md:px-10 rounded-full text-sm md:text-xl mb-2 opacity-70">Mains</button>
+                <button onclick="filterMenu('quick_bites')" data-type="quick_bites" class="menu-tab glowing-button text-white font-bold py-3 px-6 md:px-10 rounded-full text-sm md:text-xl mb-2 opacity-70">Snacks & Quick Bites</button>
+                <button onclick="filterMenu('beverages')" data-type="beverages" class="menu-tab glowing-button text-white font-bold py-3 px-6 md:px-10 rounded-full text-sm md:text-xl mb-2 opacity-70">Beverages</button>
+            </div>
+
+            <!-- Menu Items Grid -->
+            <div id="menu-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+                <!-- Menu items will be injected here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Feedback Section -->
+    <section id="feedback" class="py-20 px-4 md:px-8 bg-[var(--text-color)] text-white">
+        <div class="container mx-auto text-center overflow-hidden">
+            <h2 class="text-6xl font-extrabold text-[var(--accent-color)] mb-12 fade-in-up">Yummy Reviews!</h2>
+            <div class="relative w-full">
+                <div class="flex items-stretch space-x-8 scroll-animation">
+                    <!-- Reviews will be cloned and scrolled infinitely -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="container mx-auto py-20 px-4 md:px-8">
+        <div class="text-center mb-12 fade-in-up">
+            <h2 class="text-6xl font-extrabold text-[var(--primary-color)]">Say Hello!</h2>
+            <p class="mt-4 text-xl text-[var(--text-color)]">We'd love to hear from you. Find our cozy spot here!</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-16">
+            <!-- Contact Details -->
+            <div class="bg-[var(--card-background)] p-10 rounded-[40px] shadow-2xl flex flex-col justify-center space-y-6 fade-in-left" style="animation-delay: 0.2s; background-color: #fff2e6;">
+                <div class="flex items-center space-x-6">
+                    <i class="fas fa-map-marker-alt text-4xl text-[var(--primary-color)]"></i>
+                    <div>
+                        <h3 class="font-bold text-2xl">Our Address</h3>
+                        <p class="text-[var(--text-color)]">Bonbhojon Restaurant, near by Shree Shree Karunamayi High School, West Bengal, India</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <i class="fas fa-phone-alt text-4xl text-[var(--primary-color)]"></i>
+                    <div>
+                        <h3 class="font-bold text-2xl">Call Us</h3>
+                        <p class="text-[var(--text-color)]">+91 98765 43210</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <i class="fas fa-envelope text-4xl text-[var(--primary-color)]"></i>
+                    <div>
+                        <h3 class="font-bold text-2xl">Email Us</h3>
+                        <p class="text-[var(--text-color)]">hello@bonbhojon.com</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Google Maps -->
+            <div class="h-96 md:h-full w-full rounded-[40px] overflow-hidden shadow-2xl fade-in-right" style="animation-delay: 0.4s;">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d288.447057717994!2d89.44872719353633!3d26.306186467830305!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2sin!4v1754409849049!5m2!1sen!2sin" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[var(--text-color)] text-gray-300 py-8 text-center fade-in-up" style="animation-delay: 0.2s;">
+        <p>&copy; 2025 BonBhojon. All rights reserved.</p>
+         <a href="https://rsarkar.co.in" target="_blank" class="glow-signature font-bold text-xl hover:underline">© Rajarshi Sarkar</a>
+    </footer>
+
+    <style>
+  .glow-signature {
+    animation: glowName 2s ease-in-out infinite alternate;
+    color: #fff8f0;
+    text-shadow: 0 0 5px #ffc971, 0 0 10px #ff8c42, 0 0 15px #ff8c42;
+  }
+
+  @keyframes glowName {
+    from {
+      text-shadow: 0 0 5px #ffc971, 0 0 10px #ff8c42;
+    }
+    to {
+      text-shadow: 0 0 15px #ff8c42, 0 0 25px #ffc971, 0 0 35px #ffc971;
+    }
+  }
+</style>
+
+
+
+
+
+
+<script>// #################################################    BLOCK INSPECT ELEMENTS ############################################
+  function showCustomAlert(message) {
+    const popup = document.createElement('div');
+    popup.innerHTML = `
+      <div class="fixed top-10 left-1/2 transform -translate-x-1/2 bg-pink-200 border-4 border-pink-400 rounded-xl shadow-lg px-6 py-4 z-50 text-center animate-bounce-in cartoon-alert">
+        <p class="text-lg font-bold text-pink-800">🍔 ${message}</p>
+      </div>
+    `;
+    document.body.appendChild(popup);
+    setTimeout(() => popup.remove(), 2500);
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (
+      e.key === 'F12' ||
+      (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) ||
+      (e.ctrlKey && e.key === 'U')
+    ) {
+      e.preventDefault();
+      showCustomAlert('Inspect tools are disabled on this site.');
+    }
+  });
+
+  document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+    showCustomAlert('Right-click is disabled to protect site content.');
+  });
+</script>
+
+
+    <script>
+        // Array of cute food GIFs for random assignment
+        const foodGifs = [
+            "https://media.giphy.com/media/xT39DmzB9Xp7VvEaI8/giphy.gif",
+            "https://media.giphy.com/media/3o7TKBwP2e95t37h0I/giphy.gif",
+            "https://media.giphy.com/media/l4pTfx2qLsQIap6qA/giphy.gif",
+            "https://media.giphy.com/media/Vj32w1q58Sj6w/giphy.gif",
+            "https://media.giphy.com/media/3o7TKoQ45W4d2F43yU/giphy.gif",
+            "https://media.giphy.com/media/gHKnFHkGPbbUp3Wz2V/giphy.gif",
+            "https://media.giphy.com/media/xT39CSd742v1J0rV2w/giphy.gif",
+            "https://media.giphy.com/media/3o7TKoQfB4Wb4SgJJS/giphy.gif",
+            "https://media.giphy.com/media/3o7TKB88h8nI6k3w4M/giphy.gif",
+            "https://media.giphy.com/media/hS5M0B6x2S0nU/giphy.gif",
+            "https://media.giphy.com/media/fV2hF44eXyQpTj86qK/giphy.gif"
+        ];
+
+        // New menu data with updated categories and ratings
+        const menuItems = [
+            { id: 1, name: "Bread Toast + Steamed Chicken", price: 100, rating: 4.5, type: "starters", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 2, name: "Veg Pakoda", price: 60, rating: 4, type: "starters", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 3, name: "Paneer Pakoda", price: 90, rating: 6, type: "starters", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 4, name: "Onion Pakoda", price: 50, rating: 8, type: "starters", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 5, name: "Mushroom Pakoda", price: 70, rating: 6, type: "starters", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 6, name: "Chicken Pakoda", price: 80, rating: 8, type: "starters", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 7, name: "Chicken Lollipop", price: 100, rating: 2, type: "starters", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 8, name: "Crispy Chicken", price: 80, rating: 4.5, type: "starters", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 9, name: "Chicken Chap Fry", price: 80, rating: 4.5, type: "starters", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 10, name: "Veg Fry Momo", price: 60, rating: 8, type: "starters", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 11, name: "Chicken Fry Momo", price: 70, rating: 8, type: "starters", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 12, name: "Vetki Fish Fry (2 pcs)", price: 190, rating: 4.5, type: "starters", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 13, name: "Vetki Fish Finger", price: 160, rating: 4.5, type: "starters", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 14, name: "Veg Momo", price: 50, rating: 8, type: "starters", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 15, name: "Chicken Momo", price: 60, rating: 8, type: "starters", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 16, name: "Mutton Momo", price: 100, rating: 8, type: "starters", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 17, name: "Steamed Chicken", price: 80, rating: 4.5, type: "starters", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 18, name: "Veg Masala Maggi", price: 60, rating: 4.5, type: "quick_bites", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 19, name: "Veg Chowmin", price: 60, rating: 4.5, type: "quick_bites", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 20, name: "Egg Chowmin", price: 70, rating: 4.5, type: "quick_bites", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 21, name: "Egg Chicken Chowmin", price: 100, rating: 4.5, type: "quick_bites", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 22, name: "Mixed Chowmin", price: 120, rating: 4.5, type: "quick_bites", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 23, name: "French Fries", price: 50, rating: 5, type: "starters", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 24, name: "Bread Butter Toast", price: 30, rating: 5, type: "quick_bites", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 25, name: "Egg Butter Poch", price: 20, rating: 4.5, type: "quick_bites", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 26, name: "Paneer Sandwich", price: 40, rating: 4.5, type: "quick_bites", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 27, name: "Chicken Sandwich", price: 40, rating: 4.5, type: "quick_bites", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 28, name: "Pav Bhaji", price: 70, rating: 4.5, type: "quick_bites", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 29, name: "Lanchha Double Egg Roll", price: 70, rating: 4.5, type: "quick_bites", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 30, name: "Lanchha Egg Chicken Roll", price: 90, rating: 4.5, type: "quick_bites", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 31, name: "Veg Spring Roll", price: 60, rating: 4.5, type: "quick_bites", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 32, name: "Chicken Egg Spring Roll", price: 90, rating: 4.5, type: "quick_bites", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 33, name: "Chicken Phaley", price: 90, rating: 4.5, type: "quick_bites", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 34, name: "Veg Chilli Momo", price: 80, rating: 8, type: "starters", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 35, name: "Chicken Chilli Momo", price: 90, rating: 8, type: "starters", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 36, name: "Chilli Paneer", price: 120, rating: 6, type: "starters", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 37, name: "Chilli Mushroom", price: 100, rating: 6, type: "starters", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 38, name: "Drums Of Heaven", price: 180, rating: 3, type: "starters", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 39, name: "Chilli Chicken", price: 110, rating: 6, type: "starters", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 40, name: "Dragon Chicken", price: 150, rating: 4.5, type: "starters", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 41, name: "Veg Cheese Burger", price: 70, rating: 4.5, type: "quick_bites", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 42, name: "Egg Cheese Burger", price: 80, rating: 4.5, type: "quick_bites", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 43, name: "Chicken Cheese Burger", price: 100, rating: 4.5, type: "quick_bites", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 44, name: "Fried Rice + Chicken Kosha", price: 180, rating: 4, type: "main", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 45, name: "Fried Rice + Chilli Chicken", price: 160, rating: 4, type: "main", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 46, name: "Fried Rice + Masala Paneer", price: 190, rating: 4, type: "main", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 47, name: "Fried Rice + Chilli Paneer", price: 170, rating: 4, type: "main", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 48, name: "Egg Chowmin + Chilli Chicken", price: 130, rating: 4, type: "main", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 49, name: "Egg Chowmin + Chilli Paneer", price: 140, rating: 4, type: "main", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 50, name: "Green Salad", price: 60, rating: 5, type: "starters", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 51, name: "Paneer Paratha", price: 60, rating: 5, type: "quick_bites", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 52, name: "Aloo Paratha", price: 50, rating: 5, type: "quick_bites", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 53, name: "Special Egg Moghlai", price: 100, rating: 5, type: "main", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 54, name: "Special Egg Chicken Moghlai", price: 120, rating: 5, type: "main", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 55, name: "Mix Fried Rice", price: 150, rating: 5, type: "main", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 56, name: "Pulao", price: 110, rating: 5, type: "main", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 57, name: "Chicken Biriyani", price: 160, rating: 5, type: "main", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 58, name: "Egg Tadka", price: 80, rating: 5, type: "main", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 59, name: "Chicken Egg Tadka", price: 100, rating: 5, type: "main", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 60, name: "Chicken Kosha", price: 120, rating: 5, type: "main", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 61, name: "Lachha Paratha", price: 30, rating: 1, type: "quick_bites", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 62, name: "Roti", price: 10, rating: 5, type: "quick_bites", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 63, name: "Masala Cold Drinks", price: 40, rating: 4.5, type: "beverages", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 64, name: "Lassi", price: 50, rating: 4.5, type: "beverages", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 65, name: "Special Masala Chai", price: 25, rating: 4.5, type: "beverages", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 66, name: "Tea", price: 20, rating: 4.5, type: "beverages", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 67, name: "Red Tea", price: 15, rating: 4.5, type: "beverages", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 68, name: "Green Tea", price: 30, rating: 4.5, type: "beverages", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 69, name: "Coffee", price: 25, rating: 4.5, type: "beverages", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 70, name: "Lime Soda", price: 50, rating: 4.5, type: "beverages", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 71, name: "Chicken Kabab", price: 120, rating: 5, type: "starters", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 72, name: "Masala Paneer", price: 140, rating: 4, type: "main", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 73, name: "Cold Coffee", price: 70, rating: 4, type: "beverages", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 74, name: "Aam Panna Drink", price: 50, rating: 4, type: "beverages", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 75, name: "Blue Lagoon Drink", price: 50, rating: 4, type: "beverages", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 76, name: "Watermelon Drink", price: 50, rating: 4, type: "beverages", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 77, name: "Mint Mojito", price: 50, rating: 4.5, type: "beverages", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 78, name: "Darjeeling Tea", price: 30, rating: 4.5, type: "beverages", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 79, name: "Paneer Cheese Burger", price: 100, rating: 4.5, type: "quick_bites", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 80, name: "Chicken Soup", price: 70, rating: 4.5, type: "starters", category: "non-veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 81, name: "Crispy Chilli Baby Corn", price: 120, rating: 4.5, type: "starters", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+            { id: 82, name: "Mixed Veg Corn Saute", price: 110, rating: 4.5, type: "starters", category: "veg", image: foodGifs[Math.floor(Math.random() * foodGifs.length)] },
+        ];
+
+
+        // Data for feedback section (25 reviews as requested)
+        const reviews = [
+            { username: "Rohan S.", review: "Every dish is a little bit of magic! The flavors are absolutely delightful and comforting." },
+            { username: "Pooja A.", review: "A culinary wonderland! The Chicken Biryani was a work of art. Loved it so much!" },
+            { username: "Vikram P.", review: "So many tasty vegetarian options! The Paneer Butter Masala is a must-try. Cuteness overload!" },
+            { username: "Neha B.", review: "The staff is so friendly and the food is just amazing. BonBhojon is my new happy place!" },
+            { username: "Amit C.", review: "Best food in town, no contest. The cute aesthetic makes the experience even better." },
+            { username: "Shreya T.", review: "I felt like I was eating a hug! The Dal Makhani was incredible. Highly recommend to everyone." },
+            { username: "Rajesh K.", review: "The Tandoori Chicken was grilled to perfection. Juicy, flavorful, and oh so delicious!" },
+            { username: "Anjali G.", review: "The place has a wonderful vibe and the food is even better. I’m hooked on their desserts!" },
+            { username: "Siddharth V.", review: "A perfect spot for family dinners. The kids loved the food and the decor. We will be back soon!" },
+            { username: "Meera D.", review: "Absolutely phenomenal! The flavors are so rich and authentic. A must-visit place for every foodie." },
+            { username: "Kartik N.", review: "This place is a gem! The food is consistently good and the atmosphere is charming." },
+            { username: "Divya L.", review: "Their Malai Kofta is a dream come true. Creamy, delicious, and so satisfying. Love it!" },
+            { username: "Pranav M.", review: "Finally, a restaurant that cares about both food and fun decor. A real treat for all senses!" },
+            { username: "Sangeeta J.", review: "The Fish Fry was so crispy and fresh. It reminded me of home-cooked food. Bravo!" },
+            { username: "Arjun W.", review: "Every meal here feels special. The presentation is cute and the taste is out of this world." },
+            { username: "Nandini R.", review: "Such a delightful dining experience. The Veg Kebab was perfectly spiced. Will definitely return." },
+            { username: "Harshil B.", review: "The service was quick and the food was delicious. A great place to grab a quick, quality bite." },
+            { username: "Isha K.", review: "BonBhojon never disappoints. The food is always top-notch and the atmosphere is so cheerful." },
+            { username: "Vivek S.", review: "Best. Butter. Chicken. Ever. Period. I could eat this every day and never get bored." },
+            { username: "Ankita D.", review: "The cutest restaurant I've been to! The food is as good as the decor suggests. Simply fantastic!" },
+            { username: "Gaurav H.", review: "Had a great time with friends here. The food was awesome and the ambiance was perfect for a chat." },
+            { username: "Lata K.", review: "A true taste of tradition with a modern twist. The flavors are so clean and fresh." },
+            { username: "Dhruv P.", review: "I'm a big fan of their Mutton Rogan Josh. It's so tender and the curry is just divine." },
+            { username: "Priya K.", review: "BonBhojon is my new favorite spot. The vegetarian options are incredibly delicious, especially the paneer. Highly recommend!" },
+            { username: "Karan B.", review: "Simply the best biryani I've ever tasted. The portions are generous and the staff is very friendly. Can't wait to go back." }
+        ];
+
+        const menuContainer = document.getElementById('menu-container');
+        const searchBar = document.getElementById('search-bar');
+        const feedbackContainer = document.querySelector('.scroll-animation');
+        const floatingParticlesContainer = document.querySelector('.floating-particles');
+        let currentFilterType = 'all';
+
+        // Function to create star rating HTML
+        function createStarRating(rating) {
+            const maxRating = 10;
+            const starCount = 5;
+            const normalizedRating = (rating / maxRating) * starCount;
+            let starsHtml = '';
+
+            for (let i = 1; i <= starCount; i++) {
+                if (i <= Math.floor(normalizedRating)) {
+                    starsHtml += `<i class="fas fa-star text-yellow-400"></i>`;
+                } else if (i - 0.5 === normalizedRating) {
+                    starsHtml += `<i class="fas fa-star-half-alt text-yellow-400"></i>`;
+                } else {
+                    starsHtml += `<i class="far fa-star text-yellow-400"></i>`;
+                }
+            }
+            return `<div class="flex items-center text-xl space-x-1">${starsHtml}</div>`;
+        }
+
+        // Function to render menu items
+        function renderMenuItems(items) {
+            menuContainer.innerHTML = ''; // Clear previous items
+            items.forEach(item => {
+                const starRatingHtml = createStarRating(item.rating);
+                const itemHtml = `
+                    <div class="bg-[var(--card-background)] rounded-2xl shadow-lg overflow-hidden card-animation fade-in-up">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="font-bold text-2xl text-[var(--text-color)] mb-2">${item.name}</h3>
+                            <p class="text-xl font-bold text-[var(--primary-color)]">₹${item.price}</p>
+                            <div class="flex items-center mt-2 space-x-2">
+                                <span class="text-sm font-bold rounded-full py-1 px-3 text-white ${item.category === 'veg' ? 'bg-[var(--accent-color)]' : 'bg-[#ff7947]'}">
+                                    ${item.category}
+                                </span>
+                                ${starRatingHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                menuContainer.innerHTML += itemHtml;
+            });
+        }
+
+        // Function to filter menu based on category
+        function filterMenu(type) {
+            currentFilterType = type;
+            let filteredItems = menuItems;
+
+            if (type !== 'all') {
+                filteredItems = menuItems.filter(item => item.type === type);
+            }
+            renderMenuItems(filteredItems);
+
+            // Update active tab styling
+            document.querySelectorAll('.menu-tab').forEach(button => {
+                button.classList.remove('opacity-100');
+                button.classList.add('opacity-70');
+            });
+            const activeButton = document.querySelector(`[data-type="${type}"]`);
+            if (activeButton) {
+                activeButton.classList.remove('opacity-70');
+                activeButton.classList.add('opacity-100');
+            }
+        }
+
+        // Function to filter menu based on search input
+        searchBar.addEventListener('keyup', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            let filteredItems = menuItems;
+            if (currentFilterType !== 'all') {
+                filteredItems = menuItems.filter(item => item.type === currentFilterType);
+            }
+            const searchedItems = filteredItems.filter(item => item.name.toLowerCase().includes(searchTerm));
+            renderMenuItems(searchedItems);
+        });
+
+        // Function to create feedback cards and clone for infinite scroll
+        function renderFeedback() {
+            const reviewCardHtml = reviews.map(review => `
+                <div class="flex-none bg-[var(--text-color)] p-8 rounded-2xl shadow-xl w-[350px] md:w-[400px] flex-shrink-0 card-animation">
+                    <p class="text-lg italic text-gray-200 mb-4">"${review.review}"</p>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 rounded-full bg-[var(--primary-color)] flex items-center justify-center text-white font-bold text-2xl">
+                            ${review.username.charAt(0)}
+                        </div>
+                        <span class="font-bold text-gray-200 text-xl">${review.username}</span>
+                    </div>
+                </div>
+            `).join('');
+            // Clone the reviews to create a seamless infinite loop
+            feedbackContainer.innerHTML = reviewCardHtml + reviewCardHtml;
+        }
+
+        // Function to create random floating particles
+        function createRandomParticle() {
+            const particles = ['❤️', '🌸', '🌼', '🍔', '🍕', '🍟'];
+            const randomParticle = particles[Math.floor(Math.random() * particles.length)];
+            const particle = document.createElement('span');
+            particle.classList.add('particle');
+            particle.textContent = randomParticle;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.animationDelay = `${Math.random() * 10}s`;
+            particle.style.animationDuration = `${10 + Math.random() * 10}s`;
+            particle.style.fontSize = `${1.5 + Math.random() * 1.5}rem`;
+            floatingParticlesContainer.appendChild(particle);
+
+            // Remove particle after animation to prevent DOM clutter
+            particle.addEventListener('animationend', () => {
+                particle.remove();
+            });
+        }
+
+        // Spawn particles at a regular interval
+        setInterval(createRandomParticle, 500);
+
+        // Initial render on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            filterMenu('all'); // Show all items initially
+            renderFeedback(); // Render feedback section
+        });
+    </script>
+</body>
+</html>
