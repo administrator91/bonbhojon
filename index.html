@@ -769,11 +769,15 @@
             currentFilterType = type; // Update the current filter
             let filteredItems = menuItems;
 
+            // Clear search bar and dismiss keyboard when any filter button is clicked
+            searchBar.value = ''; 
+            searchBar.blur(); // Dismiss the keyboard
+
             if (type !== 'all') {
                 filteredItems = menuItems.filter(item => item.type === type);
             }
             
-            // Apply search filter if there's text in the search bar
+            // Apply search filter if there's text in the search bar (after clearing for filter buttons)
             const searchTerm = searchBar.value.toLowerCase();
             if (searchTerm) {
                 filteredItems = filteredItems.filter(item => item.name.toLowerCase().includes(searchTerm));
@@ -802,7 +806,12 @@
             }
             const searchedItems = filteredItems.filter(item => item.name.toLowerCase().includes(searchTerm));
             renderMenuItems(searchedItems);
+            // Dismiss keyboard on mobile after search (e.g., when "Go" or "Search" is pressed)
+            if (e.key === 'Enter') {
+                e.target.blur(); 
+            }
         });
+
 
         // Function to create and render feedback cards for infinite scroll
         function renderFeedback() {
