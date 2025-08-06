@@ -506,7 +506,7 @@
             </div>
             <div id="payment-options" class="payment-options hidden">
                 <h3 class="text-xl font-bold text-[var(--text-color)] mb-4">Choose Payment Mode</h3>
-                <button class="payment-option-button" id="cash-on-delivery-button">Cash on Delivery</button>
+                <button class="payment-option-button" id="cash-on-delivery-button">Cash on Pay</button>
                 <button class="payment-option-button" id="online-payment-button">Online Payment (Coming Soon!)</button>
             </div>
             <button id="checkout-button" class="glowing-button text-white font-bold py-3 px-8 rounded-full text-lg mt-8 w-full">
@@ -955,7 +955,7 @@
         });
 
         onlinePaymentButton.addEventListener('click', () => {
-            showCustomAlert('Online Payment is Coming Soon! Please choose Cash on Delivery for now.');
+            showCustomAlert('Online Payment is Coming Soon! Please choose Cash on Pay for now.');
             cartModal.classList.remove('open'); // Close the cart modal
         });
 
