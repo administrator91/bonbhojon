@@ -184,6 +184,132 @@
                 text-shadow: 0 0 15px #ff8c42, 0 0 25px #ffc971, 0 0 35px #ffc971;
             }
         }
+
+        /* Shopping cart button styling */
+        #cart-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 9999px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 8px 15px rgba(255, 140, 66, 0.5);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            z-index: 100;
+        }
+        #cart-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 20px rgba(255, 140, 66, 0.7);
+        }
+        #cart-count {
+            background-color: white;
+            color: var(--primary-color);
+            border-radius: 50%;
+            padding: 5px 10px;
+            font-size: 1rem;
+        }
+
+        /* Cart Modal Styling */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .cart-modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .cart-content {
+            background-color: var(--card-background);
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90%;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+        .cart-modal.open .cart-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .cart-close-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        .cart-item-name {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        .cart-item-quantity-controls button {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 5px;
+            padding: 2px 8px;
+            margin: 0 5px;
+            font-weight: bold;
+        }
+        .cart-total {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: right;
+            color: var(--primary-color);
+        }
+        .payment-options {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        .payment-option-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            font-weight: bold;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .payment-option-button:hover {
+            background-color: #7ad88f; /* Darker mint green */
+        }
     </style>
 </head>
 <body class="bg-[var(--background-color)] text-[var(--text-color)]">
@@ -240,7 +366,7 @@
         });
     </script>
 
-    <!-- Hero Section -->
+   <!-- Hero Section -->
     <section class="h-screen flex items-center justify-center text-center relative overflow-hidden">
         <!-- Hero image with zoom animation -->
         <div class="hero-img-container">
@@ -361,10 +487,41 @@
          <a href="https://rsarkar.co.in" target="_blank" class="glow-signature font-bold text-lg md:text-xl hover:underline">© Rajarshi Sarkar</a>
     </footer>
 
+    <!-- Floating Cart Button -->
+    <button id="cart-button">
+        <i class="fas fa-shopping-cart"></i>
+        Cart (<span id="cart-count">0</span>)
+    </button>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="cart-modal">
+        <div class="cart-content">
+            <button class="cart-close-button">&times;</button>
+            <h2 class="text-3xl font-extrabold text-[var(--primary-color)] mb-6 text-center">Your Order</h2>
+            <div id="cart-items" class="space-y-4">
+                <!-- Cart items will be rendered here -->
+            </div>
+            <div id="cart-total" class="cart-total">
+                Total: ₹0
+            </div>
+            <div id="payment-options" class="payment-options hidden">
+                <h3 class="text-xl font-bold text-[var(--text-color)] mb-4">Choose Payment Mode</h3>
+                <button class="payment-option-button" id="cash-on-delivery-button">Cash on Delivery</button>
+                <button class="payment-option-button" id="online-payment-button">Online Payment (Coming Soon!)</button>
+            </div>
+            <button id="checkout-button" class="glowing-button text-white font-bold py-3 px-8 rounded-full text-lg mt-8 w-full">
+                Proceed to Checkout
+            </button>
+            <button id="back-to-edit-button" class="glowing-button text-white font-bold py-3 px-8 rounded-full text-lg mt-4 w-full hidden">
+                Back to Edit Order
+            </button>
+        </div>
+    </div>
+
     <!-- JavaScript for disabling inspect elements and right-click -->
     <script>
         // Function to show a custom alert message
-        function showCustomAlert(message) {
+        function showCustomAlert(message, duration = 2500) {
             const popup = document.createElement('div');
             popup.innerHTML = `
                 <div class="fixed top-10 left-1/2 transform -translate-x-1/2 bg-pink-200 border-4 border-pink-400 rounded-xl shadow-lg px-6 py-4 z-50 text-center animate-bounce-in cartoon-alert">
@@ -372,7 +529,7 @@
                 </div>
             `;
             document.body.appendChild(popup);
-            setTimeout(() => popup.remove(), 2500); // Remove alert after 2.5 seconds
+            setTimeout(() => popup.remove(), duration); // Remove alert after specified duration
         }
 
         // Disable F12, Ctrl+Shift+I/C/J, and Ctrl+U
@@ -530,7 +687,24 @@
         const menuContainer = document.getElementById('menu-container');
         const searchBar = document.getElementById('search-bar');
         const feedbackContainer = document.querySelector('.scroll-animation');
+        
         let currentFilterType = 'all'; // Tracks the currently active menu filter
+
+        // Cart elements
+        const cartButton = document.getElementById('cart-button');
+        const cartCountSpan = document.getElementById('cart-count');
+        const cartModal = document.getElementById('cart-modal');
+        const cartCloseButton = cartModal.querySelector('.cart-close-button');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartTotalSpan = document.getElementById('cart-total');
+        const checkoutButton = document.getElementById('checkout-button');
+        const paymentOptionsDiv = document.getElementById('payment-options');
+        const cashOnDeliveryButton = document.getElementById('cash-on-delivery-button');
+        const onlinePaymentButton = document.getElementById('online-payment-button');
+        const backToEditButton = document.getElementById('back-to-edit-button');
+
+
+        let cart = []; // Array to store items in the cart
 
         // Function to create star rating HTML based on a 1-10 rating scale
         function createStarRating(rating) {
@@ -562,7 +736,7 @@
                 const starRatingHtml = createStarRating(item.rating);
                 const itemHtml = `
                     <div class="bg-[var(--card-background)] rounded-2xl shadow-lg overflow-hidden card-animation fade-in-up">
-                        <img src="${item.image}" alt="${item.name}" class="w-full h-40 sm:h-48 object-cover">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-40 sm:h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=Image+Not+Found';"> <!-- Added onerror -->
                         <div class="p-4 md:p-6">
                             <h3 class="font-bold text-lg md:text-2xl text-[var(--text-color)] mb-2">${item.name}</h3>
                             <p class="text-lg md:text-xl font-bold text-[var(--primary-color)]">₹${item.price}</p>
@@ -572,10 +746,21 @@
                                 </span>
                                 ${starRatingHtml}
                             </div>
+                            <button class="add-to-cart-button glowing-button text-white font-bold py-2 px-4 rounded-full text-sm mt-4 w-full" data-item-id="${item.id}">
+                                Add to Cart <i class="fas fa-plus-circle ml-2"></i>
+                            </button>
                         </div>
                     </div>
                 `;
                 menuContainer.innerHTML += itemHtml;
+            });
+
+            // Add event listeners to new "Add to Cart" buttons
+            document.querySelectorAll('.add-to-cart-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const itemId = parseInt(e.currentTarget.dataset.itemId);
+                    addItemToCart(itemId);
+                });
             });
         }
 
@@ -636,11 +821,152 @@
             feedbackContainer.innerHTML = reviewCardHtml + reviewCardHtml;
         }
 
+        // --- Shopping Cart Logic ---
+
+        // Function to add item to cart
+        function addItemToCart(itemId) {
+            const existingItemIndex = cart.findIndex(item => item.id === itemId);
+            if (existingItemIndex > -1) {
+                cart[existingItemIndex].quantity++;
+            } else {
+                const itemToAdd = menuItems.find(item => item.id === itemId);
+                if (itemToAdd) {
+                    cart.push({ ...itemToAdd, quantity: 1 });
+                }
+            }
+            updateCartDisplay();
+            showCustomAlert('Item added to cart!');
+        }
+
+        // Function to remove item from cart
+        function removeItemFromCart(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+            updateCartDisplay();
+        }
+
+        // Function to update item quantity in cart
+        function updateItemQuantity(itemId, change) {
+            const itemIndex = cart.findIndex(item => item.id === itemId);
+            if (itemIndex > -1) {
+                cart[itemIndex].quantity += change;
+                if (cart[itemIndex].quantity <= 0) {
+                    removeItemFromCart(itemId);
+                } else {
+                    updateCartDisplay();
+                }
+            }
+        }
+
+        // Function to update cart display (items, count, total)
+        function updateCartDisplay() {
+            cartItemsContainer.innerHTML = '';
+            let totalBill = 0;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p class="text-center text-gray-500">Your cart is empty. Add some delicious food!</p>';
+                cartTotalSpan.textContent = 'Total: ₹0';
+                checkoutButton.classList.add('opacity-50', 'cursor-not-allowed');
+                checkoutButton.disabled = true;
+                paymentOptionsDiv.classList.add('hidden'); // Hide payment options if cart is empty
+                backToEditButton.classList.add('hidden'); // Hide back button if cart is empty
+            } else {
+                cart.forEach(item => {
+                    totalBill += item.price * item.quantity;
+                    const cartItemHtml = `
+                        <div class="cart-item">
+                            <span class="cart-item-name">${item.name}</span>
+                            <div class="flex items-center">
+                                <button onclick="updateItemQuantity(${item.id}, -1)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">-</button>
+                                <span class="mx-2">${item.quantity}</span>
+                                <button onclick="updateItemQuantity(${item.id}, 1)" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">+</button>
+                                <span class="ml-4 font-bold">₹${item.price * item.quantity}</span>
+                                <button onclick="removeItemFromCart(${item.id})" class="ml-4 text-red-500"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+                        </div>
+                    `;
+                    cartItemsContainer.innerHTML += cartItemHtml;
+                });
+                cartTotalSpan.textContent = `Total: ₹${totalBill}`;
+                checkoutButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                checkoutButton.disabled = false;
+            }
+            cartCountSpan.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+        }
+
+        // Event listeners for cart modal
+        cartButton.addEventListener('click', () => {
+            cartModal.classList.add('open');
+            updateCartDisplay();
+            // Ensure checkout button is visible and payment options are hidden initially
+            checkoutButton.classList.remove('hidden');
+            backToEditButton.classList.add('hidden');
+            paymentOptionsDiv.classList.add('hidden');
+        });
+
+        cartCloseButton.addEventListener('click', () => {
+            cartModal.classList.remove('open');
+            paymentOptionsDiv.classList.add('hidden'); // Hide payment options when closing
+            checkoutButton.classList.remove('hidden'); // Ensure checkout button is visible
+            backToEditButton.classList.add('hidden'); // Hide back button
+        });
+
+        // Close modal when clicking outside content
+        cartModal.addEventListener('click', (e) => {
+            if (e.target === cartModal) {
+                cartModal.classList.remove('open');
+                paymentOptionsDiv.classList.add('hidden'); // Hide payment options when closing
+                checkoutButton.classList.remove('hidden'); // Ensure checkout button is visible
+                backToEditButton.classList.add('hidden'); // Hide back button
+            }
+        });
+
+        // Checkout button functionality
+        checkoutButton.addEventListener('click', () => {
+            if (cart.length > 0) {
+                paymentOptionsDiv.classList.remove('hidden');
+                checkoutButton.classList.add('hidden'); // Hide checkout button
+                backToEditButton.classList.remove('hidden'); // Show back to edit button
+                showCustomAlert('Please select your payment mode.');
+            } else {
+                showCustomAlert('Your cart is empty. Please add items before checking out.');
+            }
+        });
+
+        // Back to Edit Order button functionality
+        backToEditButton.addEventListener('click', () => {
+            paymentOptionsDiv.classList.add('hidden'); // Hide payment options
+            checkoutButton.classList.remove('hidden'); // Show checkout button
+            backToEditButton.classList.add('hidden'); // Hide back to edit button
+        });
+
+        // Payment option button listeners
+        cashOnDeliveryButton.addEventListener('click', () => {
+            showCustomAlert('Call Someone To Place The Order');
+            setTimeout(() => {
+                showCustomAlert('Thank you for your order!', 2500); // Show thank you for 2.5 seconds
+                cart = []; // Clear the cart
+                updateCartDisplay(); // Update cart display
+                cartModal.classList.remove('open'); // Close the cart modal
+            }, 3500); // Wait for the first alert to finish + a small gap
+            // Optionally, clear the cart after placing the order
+            cart = [];
+            updateCartDisplay();
+            cartModal.classList.remove('open'); // Close the cart modal
+        });
+
+        onlinePaymentButton.addEventListener('click', () => {
+            showCustomAlert('Online Payment is Coming Soon! Please choose Cash on Delivery for now.');
+            cartModal.classList.remove('open'); // Close the cart modal
+        });
+
+
         // Initial render on page load
         document.addEventListener('DOMContentLoaded', () => {
             filterMenu('all'); // Show all menu items initially
             renderFeedback(); // Render feedback section
+            updateCartDisplay(); // Initialize cart display
         });
     </script>
 </body>
 </html>
+
