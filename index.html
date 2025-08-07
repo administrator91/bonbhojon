@@ -323,59 +323,70 @@
 
 
 /* #############################  PRE LOADER CSS START ########################## */
-/* Preloader Styles */
-#preloader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #ffffff;
-  z-index: 9999;
+  /* ✅ Lock scroll and prevent flicker during preload */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden; /* ✅ hide all scrollbars during preload */
+    }
+
+    body.loaded {
+      overflow: auto; /* ✅ enable scrollbars after preloader */
+    }
+
+    /* ✅ Preloader styles */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #fff;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      transition: opacity 0.8s ease;
+    }
+
+    #preloader img {
+  width: clamp(120px, 30vw, 200px);
+  height: auto;
+  margin-bottom: 20px; /* 🔄 Increase space between image & text */
+}
+
+.loading-text {
+  font-size: 1.6rem;
+  font-family: Arial, sans-serif;
+  color: #333;
+  text-align: center; /* ✅ Ensure perfect horizontal centering */
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  padding: 20px;
-  box-sizing: border-box;
-  text-align: center;
+  gap: 5px;
 }
 
-/* Responsive Image */
-#preloader img {
-  width: clamp(150px, 40vw, 250px); /* Automatically adjusts size */
-  height: auto;
-  margin: 0 auto;
-  display: block;
-}
 
-/* Loading Text Just Below Image */
-.loading-text {
-  color: #000;
-  font-size: clamp(18px, 3vw, 28px); /* Scales with screen */
-  font-family: Arial, sans-serif;
-  margin-top: 4px; /* 🔻 Small gap between image and text */
-  line-height: 1.2;
-  text-align: center;
-}
+    .loading-text span {
+      animation: blink 1.2s infinite;
+    }
 
-/* Dot Animation */
-.loading-text span {
-  animation: blink 1.5s infinite;
-}
+    .loading-text span:nth-child(2) { animation-delay: 0.2s; }
+    .loading-text span:nth-child(3) { animation-delay: 0.4s; }
 
-.loading-text span:nth-child(2) {
-  animation-delay: 0.2s;
-}
-.loading-text span:nth-child(3) {
-  animation-delay: 0.4s;
-}
+    @keyframes blink {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
 
-@keyframes blink {
-  0% { opacity: 0.2; }
-  20% { opacity: 1; }
-  100% { opacity: 0.2; }
-}
+    /* ✅ Content (demo) */
+    .content {
+      padding: 20px;
+      font-family: sans-serif;
+      height: 2000px; /* demo scroll */
+    }
 /* #############################  PRE LOADER CSS END ########################## */
 
         
@@ -1072,20 +1083,22 @@
   };
 </script>
 
-    <script>     //################################## for preloader ###########################
-  window.addEventListener("load", function () {
-    const preloader = document.getElementById("preloader");
-    preloader.style.opacity = "0";
-    preloader.style.transition = "opacity 0.8s ease";
+ <!-- ##################  Preloader Script  ################# -->
+  <script>
+    window.addEventListener('load', () => {
+      const preloader = document.getElementById('preloader');
+      document.body.classList.add("loaded"); // enable scroll
 
-    setTimeout(() => {
-      preloader.style.display = "none";
-    }, 800); // Match the transition time
-  });
-</script>
+      preloader.style.opacity = '0';
+      setTimeout(() => {
+        preloader.style.display = 'none';
+      }, 800); // match fade time
+    });
+  </script>
 
 </body>
 </html>
+
 
 
 
