@@ -991,8 +991,22 @@
             updateCartDisplay(); // Initialize cart display
         });
     </script>
+    
+    <script> // ############################################ REFRESH -> AUTO SCROLL TO TOP #############################################
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    }, 0);
+  });
+
+  window.onbeforeunload = function () {
+    window.scrollTo(0, 0);
+  };
+</script>
+
 </body>
 </html>
+
 
 
 
