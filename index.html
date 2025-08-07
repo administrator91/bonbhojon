@@ -536,7 +536,7 @@
     <!-- JavaScript for disabling inspect elements and right-click -->
     <script>
         // Function to show a custom alert message
-        function showCustomAlert(message, duration = 2500) {
+        function showCustomAlert(message, duration = 6500) {
             const popup = document.createElement('div');
             popup.innerHTML = `
                 <div class="fixed top-10 left-1/2 transform -translate-x-1/2 bg-pink-200 border-4 border-pink-400 rounded-xl shadow-lg px-6 py-4 z-50 text-center animate-bounce-in cartoon-alert">
@@ -967,11 +967,11 @@
         cashOnDeliveryButton.addEventListener('click', () => {
             showCustomAlert('Call Someone To Place The Order');
             setTimeout(() => {
-                showCustomAlert('Thank you for your order!', 2500); // Show thank you for 2.5 seconds
+                showCustomAlert('Thank you for your order!', 4500); // Show thank you for 4.5 seconds
                 cart = []; // Clear the cart
                 updateCartDisplay(); // Update cart display
                 cartModal.classList.remove('open'); // Close the cart modal
-            }, 3500); // Wait for the first alert to finish + a small gap
+            }, 8500); // Wait for the first alert to finish + a small gap
             // Optionally, clear the cart after placing the order
             cart = [];
             updateCartDisplay();
@@ -993,6 +993,7 @@
     </script>
 </body>
 </html>
+
 
 
 
