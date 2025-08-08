@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BonBhojon Truth or Dare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Define a cartoonish color palette and font */
+        :root {
+            --primary-color: #ff69b4; /* Hot Pink */
+            --secondary-color: #ffc0cb; /* Light Pink */
+            --accent-color-yellow: #ffd700; /* Gold */
+            --accent-color-blue: #00bfff; /* Deep Sky Blue */
+            --text-color: #4b0082; /* Indigo */
+            --background-color: #fce4ec; /* Pinkish-cream background */
+        }
+        
+        /* Apply the font and background */
+        body {
+            font-family: 'Balsamiq Sans', cursive;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            background-image: url('/assets/td.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overscroll-behavior: none; /* Prevent body scroll on mobile */
+            position: relative;
+        }
+
+        /* Overlay to make text readable on top of the background image */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white overlay */
+            backdrop-filter: blur(1px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: -1;
+        }
+
+        /* Basic container styling */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Card styling for a bubbly look */
+        .card {
+            background: #ffffff;
+            border: 5px solid var(--primary-color);
+            border-radius: 40px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 0 0 5px var(--secondary-color);
+            transition: all 0.3s ease-in-out;
+            transform: scale(1);
+            position: relative;
+            z-index: 10;
+        }
+        .card:hover {
+            transform: scale(1.02) rotate(-1deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Button styling for a glowing, cartoon effect */
+        .btn {
+            padding: 15px 30px;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            border-radius: 9999px; /* Pill shape */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Bouncy transition */
+            position: relative;
+            overflow: hidden;
+            border: 3px solid;
+            cursor: pointer;
+        }
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.5s ease-out;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+        }
+        .btn:hover:before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn:disabled {
+            background-color: #d1d5db; /* A gray for disabled buttons */
+            border-color: #9ca3af;
+            color: #4b5563;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .btn:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Specific button colors */
+        .btn-truth {
+            background-color: var(--accent-color-blue);
+            color: white;
+            border-color: #0080ff;
+        }
+        .btn-dare {
+            background-color: var(--accent-color-yellow);
+            color: var(--text-color);
+            border-color: #ccac00;
+        }
+        .btn-spin {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: #d1326f;
+        }
+        .btn-start {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: #d1326f;
+        }
+        .btn-custom {
+            background-color: #9333ea; /* Purple */
+            color: white;
+            border-color: #7e22ce;
+        }
+        .btn-add {
+            background-color: var(--accent-color-yellow);
+            color: var(--text-color);
+            border-color: #ccac00;
+        }
+        .btn-home {
+            background-color: #ef4444; /* Red for cancel */
+            color: white;
+            border-color: #dc2626;
+        }
+        .btn-logo {
+            background-color: #4b0082;
+            color: #ffffff;
+            border-color: #3b006a;
+            font-size: 1.25rem;
+            padding: 10px 20px;
+        }
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            z-index: 10;
+        }
+        .close-btn:hover {
+            color: var(--primary-color);
+            transform: scale(1.2);
+        }
+
+
+        /* Keyframe animations for a wobbly, bouncy feel */
+        @keyframes rotate-in {
+            0% { transform: scale(0.5) rotate(360deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        @keyframes pop-up {
+            0% { transform: scale(0); opacity: 0; }
+            80% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+        @keyframes challenge-reveal {
+            0% { transform: scale(0.8) translateY(-20px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 5px white, 0 0 10px white, 0 0 15px var(--primary-color), 0 0 20px var(--primary-color); }
+            50% { text-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px var(--primary-color), 0 0 40px var(--primary-color); }
+        }
+        @keyframes pop-in {
+            0% { opacity: 0; transform: translateY(20px) scale(0.9); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        
+        .animate-pop-up { animation: pop-up 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; }
+        .animate-rotate-in { animation: rotate-in 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; }
+        .challenge-text-animated { animation: challenge-reveal 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; }
+
+        /* Modal styling */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+            z-index: 50;
+        }
+        .modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 30px;
+            border: 5px solid var(--accent-color-blue);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 90%;
+            width: 500px; /* Set a max width for desktop for better readability */
+            animation: pop-up 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            position: relative; /* Needed for absolute positioning of close button */
+        }
+        
+        /* Player list styling */
+        #player-list-container {
+            border-radius: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        .player-tag {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            padding: 8px 16px;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+            cursor: pointer;
+        }
+        .player-tag.active {
+            background-color: var(--primary-color);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            animation: pulse 1.5s infinite;
+        }
+        .player-tag.highlighted {
+            animation: glow-pulse 0.2s infinite alternate;
+        }
+        @keyframes glow-pulse {
+            0% { text-shadow: 0 0 5px white, 0 0 10px var(--primary-color); transform: scale(1.05); }
+            100% { text-shadow: 0 0 10px white, 0 0 20px var(--primary-color); transform: scale(1.1); }
+        }
+
+        /* Pulse animation for the active player */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 105, 180, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 105, 180, 0); }
+        }
+        
+        .winner-text {
+            font-size: 2.5rem;
+            color: var(--accent-color-blue);
+            animation: pop-up 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+            text-shadow: 0 0 15px rgba(0, 191, 255, 0.5);
+        }
+
+        /* Custom Alert Container Styling */
+        #alert-container {
+            position: fixed; /* Fixed position */
+            bottom: 1rem;    /* 1rem from the bottom */
+            right: 1rem;     /* 1rem from the right */
+            z-index: 100;    /* On top of everything else */
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-width: 90%;
+        }
+
+        .custom-alert {
+            animation: pop-in 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; /* Use pop-in animation */
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            h1 { font-size: 3.5rem; }
+            h2 { font-size: 2.5rem; }
+            .modal-content {
+                padding: 1rem;
+                max-width: 95%;
+            }
+            .player-tag {
+                font-size: 1rem;
+            }
+            .btn {
+                padding: 12px 24px;
+            }
+            .close-btn {
+                top: 0.5rem;
+                right: 1rem;
+                font-size: 1.5rem;
+            }
+            .winner-text {
+                font-size: 2rem;
+            }
+            .btn-logo {
+                font-size: 1rem;
+                padding: 8px 16px;
+            }
+        }
+
+
+
+
+
+/* ################################# FOOTER START  ################################# */
+        #game-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(90deg, #ff69b4, #ffc0cb);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 0.9rem;
+    font-family: 'Balsamiq Sans', cursive;
+    z-index: 99;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#game-footer a {
+    color: white;
+    text-decoration: none;
+}
+
+#game-footer a:hover {
+    text-decoration: underline;
+}
+/* ################################# FOOTER END  ################################# */
+    </style>
+</head>
+<body class="p-4 md:p-8 flex items-center justify-center min-h-screen">
+
+    <!-- Main Game Container -->
+    <div class="container text-center">
+        <!-- New BonBhojon Home Button -->
+        <a href="index.html" class="btn btn-logo inline-block mb-8">
+            <i class="fas fa-home"></i> BonBhojon
+        </a>
+        <!-- Main Title -->
+        <h1 class="text-5xl md:text-6xl font-extrabold text-[var(--primary-color)] leading-tight mb-4 animate-rotate-in">
+            <i class="fas fa-laugh-squint"></i> Truth or Dare <i class="fas fa-hat-cowboy"></i>
+        </h1>
+        <p class="text-xl md:text-2xl text-[var(--text-color)] mb-8 animate-fade-in-up" style="animation-delay: 0.3s;">
+            Mazedaar challenges ka daur!
+        </p>
+        
+        <!-- Player List Container -->
+        <!-- Updated: Added max-w-2xl mx-auto to match the game card's width and center it -->
+        <div id="player-list-container" class="mb-8 p-4 border-4 border-[var(--accent-color-blue)] max-w-2xl mx-auto hidden">
+            <h3 class="text-2xl md:text-3xl font-bold text-[var(--text-color)] mb-4">Playing Now:</h3>
+            <div id="player-list" class="flex flex-wrap justify-center gap-2 max-h-40 overflow-y-auto player-list-scroller">
+                <!-- Player tags will be injected here -->
+            </div>
+        </div>
+
+        <!-- Player Display and Game Challenge Card -->
+        <div id="game-card" class="card p-6 md:p-10 mb-8 w-full max-w-2xl mx-auto hidden">
+            
+            <p id="current-player-turn-message" class="text-[var(--primary-color)] player-turn-message text-2xl md:text-3xl font-bold"></p>
+
+            <div id="challenge-section" class="hidden">
+                 <div class="h-40 md:h-52 flex items-center justify-center challenge-container mb-4">
+                    <p id="challenge-text" class="text-xl md:text-3xl font-bold text-[var(--text-color)] challenge-text-animated">
+                        Apni kismat chuno!
+                    </p>
+                </div>
+                
+                <!-- Truth & Dare Buttons -->
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4 md:gap-6">
+                    <button id="truth-btn" class="btn btn-truth w-full sm:w-1/2">
+                        <i class="fas fa-lightbulb"></i> Sach
+                    </button>
+                    <button id="dare-btn" class="btn btn-dare w-full sm:w-1/2">
+                        <i class="fas fa-skull"></i> Himmat
+                    </button>
+                </div>
+            </div>
+           
+            <!-- Spin for Next Player Button -->
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 md:gap-6 mt-6">
+                <button id="spin-btn" class="btn btn-spin flex-1 hidden">
+                    <i class="fas fa-sync-alt"></i> Ghumao!
+                </button>
+                <!-- Home button to cancel the game -->
+                <button id="home-btn" class="btn btn-home flex-1 hidden">
+                    <i class="fas fa-home"></i> HOME
+                </button>
+            </div>
+        </div>
+        
+        <!-- Initial Controls -->
+        <div id="initial-controls" class="flex flex-col gap-4 items-center animate-pop-up">
+            <button id="open-player-modal-btn" class="btn btn-start mx-auto">
+                <i class="fas fa-users"></i> Khiladi Add karke shuru karein!
+            </button>
+            <button id="open-custom-modal-btn" class="btn btn-custom mx-auto">
+                <i class="fas fa-edit"></i> Apne Challenges Add karein!
+            </button>
+        </div>
+        
+    </div>
+
+    <!-- Players Modal -->
+    <div id="player-modal" class="modal">
+        <div class="modal-content">
+            <button id="close-player-modal-btn" class="close-btn" aria-label="Close Player Modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-[var(--text-color)] mb-4 text-center">
+                <i class="fas fa-user-plus"></i> Khiladi Add karein
+            </h2>
+            <p class="text-lg md:text-xl text-[var(--text-color)] mb-4 text-center">
+                Har khiladi ka naam daalein aur "Add Player" button par click karein.
+            </p>
+            <div class="flex gap-2 items-center mb-4">
+                <input type="text" id="player-name-input" class="p-3 md:p-4 rounded-full border-4 border-[var(--primary-color)] focus:border-[var(--accent-color-blue)] outline-none text-xl md:text-2xl text-[var(--text-color)] w-full" placeholder="Khiladi ka Naam">
+                <button id="add-player-btn" class="btn btn-add flex-shrink-0 text-3xl px-4 py-2">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+            <ul id="players-list-modal" class="text-left max-h-40 overflow-y-auto pr-2">
+                <!-- Added players will appear here -->
+            </ul>
+            <button id="start-game-btn" class="btn btn-start mt-4 w-full">
+                <i class="fas fa-play"></i> Khel Shuru karein!
+            </button>
+        </div>
+    </div>
+
+    <!-- Custom Challenges Modal -->
+    <div id="custom-modal" class="modal">
+        <div class="modal-content">
+            <!-- Unified close button -->
+            <button id="close-custom-modal-btn" class="close-btn" aria-label="Close Custom Challenges Modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-[var(--text-color)] mb-4 text-center">
+                <i class="fas fa-edit"></i> Apne Challenges Daalein
+            </h2>
+            <div class="mb-4">
+                <h3 class="text-2xl font-bold mb-2">Apna Sach (Truth) daalein:</h3>
+                <div class="flex gap-2 items-center">
+                    <input type="text" id="custom-truth-input" class="p-3 rounded-full border-4 border-[var(--accent-color-blue)] focus:border-[var(--primary-color)] outline-none text-xl w-full" placeholder="Ek naya sach">
+                    <button id="add-custom-truth-btn" class="btn btn-truth flex-shrink-0 px-4 py-2 text-2xl">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                 <!-- New list for custom truths -->
+                <ul id="custom-truths-list" class="text-left max-h-24 overflow-y-auto pr-2 mt-2">
+                    <!-- Added custom truths will appear here -->
+                </ul>
+            </div>
+            <div class="mb-4">
+                <h3 class="text-2xl font-bold mb-2">Apni Himmat (Dare) daalein:</h3>
+                <div class="flex gap-2 items-center">
+                    <input type="text" id="custom-dare-input" class="p-3 rounded-full border-4 border-[var(--accent-color-yellow)] focus:border-[var(--primary-color)] outline-none text-xl w-full" placeholder="Ek naya dare">
+                    <button id="add-custom-dare-btn" class="btn btn-dare flex-shrink-0 px-4 py-2 text-2xl">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                 <!-- New list for custom dares -->
+                <ul id="custom-dares-list" class="text-left max-h-24 overflow-y-auto pr-2 mt-2">
+                    <!-- Added custom dares will appear here -->
+                </ul>
+            </div>
+             <button id="save-custom-modal-btn" class="btn btn-start mt-4 w-full">
+                <i class="fas fa-check"></i> Ho Gaya!
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ############  Developer Credit Fixed Footer #################### -->
+<footer id="game-footer">
+  <a href="https://rsarkar.co.in" target="_blank">
+    💡 Developed for <strong>BonBhojon Restaurant</strong> by <strong>Rajarshi Sarkar</strong>
+  </a>
+</footer>
+
+
+    <!-- Custom Alert Container -->
+    <div id="alert-container"></div>
+
+    <!-- ###################################### GAME Background Music START ################################### -->
+<audio id="background-music" loop autoplay>
+    <source src="assets/td.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
+<!-- Sound Toggle Button -->
+<button id="sound-toggle-btn" class="fixed top-4 right-4 z-50 bg-white text-[var(--text-color)] border-4 border-[var(--primary-color)] rounded-full p-3 shadow-lg hover:bg-[var(--primary-color)] hover:text-white transition">
+    <i id="sound-icon" class="fas fa-volume-up text-2xl"></i>
+</button>
+
+<script>
+    const music = document.getElementById("background-music");
+    const toggleBtn = document.getElementById("sound-toggle-btn");
+    const icon = document.getElementById("sound-icon");
+    let isPlaying = true;
+
+    // Try to autoplay music on page load
+    window.addEventListener('load', () => {
+        // Set volume (optional)
+        music.volume = 0.5;
+
+        // Try playing (some browsers block it until user interaction)
+        const playPromise = music.play();
+        if (playPromise !== undefined) {
+            playPromise
+                .then(() => {
+                    isPlaying = true;
+                    icon.classList.remove("fa-volume-mute");
+                    icon.classList.add("fa-volume-up");
+                })
+                .catch(() => {
+                    isPlaying = false;
+                    icon.classList.remove("fa-volume-up");
+                    icon.classList.add("fa-volume-mute");
+                });
+        }
+    });
+
+    toggleBtn.addEventListener("click", () => {
+        if (isPlaying) {
+            music.pause();
+            icon.classList.remove("fa-volume-up");
+            icon.classList.add("fa-volume-mute");
+        } else {
+            music.play();
+            icon.classList.remove("fa-volume-mute");
+            icon.classList.add("fa-volume-up");
+        }
+        isPlaying = !isPlaying;
+    });
+</script>
+<!--  ###################################  GAME SOUND END HERE #####################################-->
+
+    <script>
+        // --- Game Setup and Data ---
+
+        // HTML element references
+        const playerModal = document.getElementById('player-modal');
+        const openPlayerModalBtn = document.getElementById('open-player-modal-btn');
+        const addPlayerBtn = document.getElementById('add-player-btn');
+        const startGameBtn = document.getElementById('start-game-btn');
+        const playerNameInput = document.getElementById('player-name-input');
+        const playersListModal = document.getElementById('players-list-modal');
+        const playerListContainer = document.getElementById('player-list-container');
+        const playerList = document.getElementById('player-list');
+        const gameCard = document.getElementById('game-card');
+        const currentPlayerTurnMessageEl = document.getElementById('current-player-turn-message');
+        const challengeSection = document.getElementById('challenge-section');
+        const challengeTextEl = document.getElementById('challenge-text');
+        const truthBtn = document.getElementById('truth-btn');
+        const dareBtn = document.getElementById('dare-btn');
+        const spinBtn = document.getElementById('spin-btn');
+        const homeBtn = document.getElementById('home-btn'); // Reference to the new Home button
+        const initialControls = document.getElementById('initial-controls');
+        const alertContainer = document.getElementById('alert-container');
+        const openCustomModalBtn = document.getElementById('open-custom-modal-btn');
+        const customModal = document.getElementById('custom-modal');
+        const saveCustomModalBtn = document.getElementById('save-custom-modal-btn');
+        const customTruthInput = document.getElementById('custom-truth-input');
+        const addCustomTruthBtn = document.getElementById('add-custom-truth-btn');
+        const customDareInput = document.getElementById('custom-dare-input');
+        const addCustomDareBtn = document.getElementById('add-custom-dare-btn');
+        
+        // New references for custom challenge lists
+        const customTruthsList = document.getElementById('custom-truths-list');
+        const customDaresList = document.getElementById('custom-dares-list');
+
+        // Close buttons
+        const closePlayerModalBtn = document.getElementById('close-player-modal-btn');
+        const closeCustomModalBtn = document.getElementById('close-custom-modal-btn');
+
+        // Game state variables
+        let players = [];
+        let currentPlayerIndex = -1; // -1 means no player is selected yet
+        let gameStarted = false;
+        let isSpinning = false;
+        let truthsUsed = [];
+        let daresUsed = [];
+        let customTruths = [];
+        let customDares = [];
+        let spinInterval;
+
+        // Default challenges (Hindi and English mix)
+        const defaultTruths = [
+            "What's the most embarrassing song on your playlist?",
+            "What is the strangest food you have ever eaten?",
+            "What is your biggest fear?",
+            "If you could be any animal, what would it be?",
+            "Tell everyone a secret about you no one knows.",
+            "What's the most childish thing you still do?",
+            "What's your biggest crush on a celebrity?",
+            "Kaunsa sabse weird sapna aapne dekha hai?",
+            "Agar aap ek din ke liye gaayab ho sakte ho, to kya karoge?",
+            "Apni sabse embarrassing moment batao.",
+            "Kya aapne kabhi bina bill diye kuch khaya hai?",
+            "Kya aapne kabhi kisi ko jhooth bola sirf khana ke liye?",
+            "Kya aapko kisi BonBhojon staff par crush aaya?",
+            "Aapke phone mein sabse zyada time kis app par spend hota hai?",
+            "Kya aapne kabhi bina brush kiye restaurant mein khana khaya?",
+            "Kya aapne kabhi apne dost ka order chhupke kha liya?",
+            "Kya bina paise ke date pe gaye ho?",
+            "Aaj ka sabse funny moment kya tha?",
+            "Aapke purse ya wallet mein kya weird cheez hai?",
+            "Kya aap abhi bhi cartoons dekhte ho?",
+            "Kya aap ek din ke liye apni life kisi aur ke sath badalna chahoge?",
+            "Sabke saamne ek embarrassing selfie dikhao.",
+            "Kya aapne kabhi table pe nacha hai?",
+            "Apni zindagi ka sabse bada guilt kya hai?",
+            "Apne left waale dost ke baare mein ek sach bolo.",
+            "Kya aap khana ke liye jhooth bol sakte ho?",
+            "Apne phone ka sabse last photo dikhayein.",
+            "Aapko kis baat par sabse jaldi gussa aata hai?",
+            "Ek aisi baat jo aapne parents se kabhi nahi batayi ho?",
+
+            // ✅ New 20 Truths
+            "Aapka sabse bada khwaab kya hai?",
+            "Kya aapko jungle mein rehna pasand aayega?",
+            "Kya kabhi aapne dosti tod di sirf khane ke mamle mein?",
+            "Aapko sabse jyada kis cheez se pyaar hai?",
+            "Agar aap chef hote, kya dish banate?",
+            "Apna ek puraani pyaar ya crush ka kissa sunayein.",
+            "Aapke family ko aapke kis habit se problem hai?",
+            "Kya aap selfie addict ho?",
+            "Kya aap kabhi kisi stranger se impress hue ho?",
+            "Aapke according perfect date kaisi honi chahiye?",
+            "Apne best friend ke liye sabse bada sacrifice kya hai?",
+            "Kya kabhi kisi ko secretly stalk kiya hai?",
+            "Kya kabhi khud ka birthday bhool gaye ho?",
+            "Kya aap jab chhote the tab restaurant mein rona shuru kar dete the?",
+            "Aapko kis cheez se sabse zyada jealousy hoti hai?",
+            "Aap apna stress kaise handle karte ho?",
+            "Kya aap future mein restaurant kholna chahoge?",
+            "Aapko sabse zyada kis time ya jagah pe peace milta hai?",
+            "Kya aap kisi river ke paas meditation try karna chahoge?"
+        ];
+
+        const defaultDares = [
+             "Send a random emoji to the fifth person in your contacts.",
+            "Sing the national anthem loudly and proudly.",
+            "Act like a monkey until your next turn.",
+            "Let a friend give you a silly new hairstyle.",
+            "Ek minute tak apne favourite cartoon character ki acting karo.",
+            "Sari tables par jaa kar 'Hello, bonbhojon' bolo.",
+            "Kisi bhi 5 dosto ko funny face ki selfie bhejo.",
+            "Apni sabse bekaar joke sunao.",
+            "Apni-apni shoes exchange karo aur agle 10 minute tak pehno.",
+            "Ek table par jaake unko khud ka waiter/waitress samjhao.",
+            "Apne glass se acting karo jaise wo mic ho aur gana gao.",
+            "River side jaake ek selfie lo aur sabko dikhao.",
+            "Bamboo decoration ko gale lagao aur usse baat karo.",
+            "Apne dost ke liye 1 minute ka love letter bolkar sunao.",
+            "Apne chair ke upar khade hoke ek dialogue bolo.",
+            "Napkin ka crown banake king/queen ban jao.",
+            "Khaali plate le jaake kisi table par 'ye aapka order hai' bolo.",
+            "Waiter ki tarah menu lo aur order lene ki acting karo.",
+            "Apne dost ka ek funny nickname sabke saamne do.",
+            "Jungle mein chhup jaane wali acting karo.",
+            "Light ke niche dance karo jaise stage performance ho.",
+            "BonBhojon ka ek jingle banao aur sabko sunao.",
+            "River ki taraf dekh ke 'film hero' ki style mein pose karo.",
+            "Kisi random stranger ko 'Aap ache lag rahe ho' bolo.",
+            "Apne group ke kisi ek member ka mimicry karo.",
+            "Khud ko 30 seconds ke liye chef samjho aur order announce karo.",
+            "Table ke neeche se crawl karke dusre side jao.",
+            "2 minute tak bas 'meow meow' bolkar baat karo.",
+            "Sabke saamne apna talent show karo — jo bhi ho!",
+
+            // ✅ New 20 Dares
+            "Kisi stranger ko khana offer karo (fake acting).",
+            "Light ke neeche jaake 10 sec ka slow-motion walk karo.",
+            "Bina haath ka use kiye ek Chammach uthao.",
+            "Ek table se doosre table tak robot ki tarah chalo.",
+            "Restaurant staff ko ‘aap superstar ho’ bolo.",
+            "Apne group ka ek advertisement banao aur sabko dikhayo.",
+            "Jungle mein lion ki awaaz nikaalo.",
+            "Bamboo ke paas khade hoke 'nature lover' ka photo pose do.",
+            "Ek purani ya filmy gaana gaao puri acting ke sath.",
+            "Ek chair ko propose karo jaise wo aapka crush ho.",
+            "Napkin se superhero mask banao aur pose do.",
+            "Footpath ya ground ko stage samajhke 30 sec dance karo.",
+            "River ki taraf jaake shayari sunao.",
+            "Apna khayali restaurant ka naam aur menu announce karo.",
+            "Apne dost ke haath mein tattoo banane ki acting karo.",
+            "Glass mein paani daalke usse cheers karke peeyo jaise party ho.",
+            "Apne doston ko BonBhojon ka TV ad bana ke dikhayo.",
+            "Ek table ko samjho audience aur stand-up comedy karo.",
+            "River side se ek patthar uthao aur usse naam do.",
+            "Apne doston ko line mein baithakar announcement karo — jaise principal ho!"
+        ];
+
+        // --- Helper Functions ---
+
+        /**
+         * Displays a custom, animated alert message on the screen.
+         * @param {string} message The message to display.
+         * @param {string} type The type of alert ('success', 'error', 'info').
+         */
+        function showCustomAlert(message, type = 'info') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `custom-alert animate-pop-in border-4 px-6 py-3 rounded-2xl shadow-xl z-[200]`;
+            let bgColor, borderColor, icon, textColor;
+
+            switch (type) {
+                case 'success':
+                    bgColor = '#e6ffed';
+                    borderColor = '#38a169';
+                    icon = '<i class="fas fa-check-circle"></i>';
+                    textColor = '#22543d';
+                    break;
+                case 'error':
+                    bgColor = '#ffe6e6';
+                    borderColor = '#e53e3e';
+                    icon = '<i class="fas fa-times-circle"></i>';
+                    textColor = '#822727';
+                    break;
+                default: // info
+                    bgColor = '#e0f2fe';
+                    borderColor = '#3b82f6';
+                    icon = '<i class="fas fa-info-circle"></i>';
+                    textColor = '#1e40af';
+                    break;
+            }
+
+            alertDiv.style.backgroundColor = bgColor;
+            alertDiv.style.borderColor = borderColor;
+            alertDiv.style.color = textColor;
+            alertDiv.innerHTML = `${icon} <span class="ml-2 font-bold">${message}</span>`;
+            
+            alertContainer.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000); // Alert disappears after 3 seconds
+        }
+
+        /**
+         * Clears all animations from the challenge text element to prepare for a new one.
+         */
+        function resetChallengeAnimations() {
+            challengeTextEl.classList.remove('challenge-text-animated');
+            void challengeTextEl.offsetWidth; // Force a reflow to restart the animation
+        }
+        
+        /**
+         * Resets the game to its initial state.
+         */
+        function resetGame() {
+            // Reset game state variables
+            players = [];
+            currentPlayerIndex = -1;
+            gameStarted = false;
+            truthsUsed = [];
+            daresUsed = [];
+            
+            // Hide game-related sections and show initial controls
+            gameCard.classList.add('hidden');
+            playerListContainer.classList.add('hidden');
+            initialControls.classList.remove('hidden');
+            
+            // Clear player lists in both main UI and modal
+            playerList.innerHTML = '';
+            playersListModal.innerHTML = '';
+            
+            // Show a success message
+            showCustomAlert('Game has been reset! Please add players to start again.', 'success');
+        }
+
+        // --- Main Game Logic Functions ---
+
+        /**
+         * Renders the list of players in the main UI and in the modal.
+         */
+        function renderPlayers() {
+            playerList.innerHTML = '';
+            playersListModal.innerHTML = '';
+            players.forEach((player, index) => {
+                // Main game list
+                const playerTag = document.createElement('span');
+                playerTag.className = `player-tag`;
+                playerTag.textContent = player;
+                if (index === currentPlayerIndex) {
+                    playerTag.classList.add('active');
+                }
+                playerList.appendChild(playerTag);
+
+                // Modal list
+                const modalListItem = document.createElement('li');
+                modalListItem.className = 'flex items-center justify-between p-2 text-[var(--text-color)] font-bold border-b border-gray-200 last:border-0';
+                modalListItem.innerHTML = `
+                    <span>${player}</span>
+                    <button class="remove-player text-red-500 hover:text-red-700" data-index="${index}">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                `;
+                playersListModal.appendChild(modalListItem);
+            });
+        }
+        
+        /**
+         * Renders the custom truths and dares lists in the modal.
+         */
+        function renderCustomChallenges() {
+            customTruthsList.innerHTML = '';
+            customTruths.forEach((truth, index) => {
+                const listItem = document.createElement('li');
+                listItem.className = 'flex items-center justify-between p-2 text-[var(--text-color)] border-b border-gray-200 last:border-0 text-left';
+                listItem.innerHTML = `
+                    <span>${truth}</span>
+                    <button class="remove-custom-truth text-red-500 hover:text-red-700" data-index="${index}">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                `;
+                customTruthsList.appendChild(listItem);
+            });
+
+            customDaresList.innerHTML = '';
+            customDares.forEach((dare, index) => {
+                const listItem = document.createElement('li');
+                listItem.className = 'flex items-center justify-between p-2 text-[var(--text-color)] border-b border-gray-200 last:border-0 text-left';
+                listItem.innerHTML = `
+                    <span>${dare}</span>
+                    <button class="remove-custom-dare text-red-500 hover:text-red-700" data-index="${index}">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                `;
+                customDaresList.appendChild(listItem);
+            });
+        }
+
+        /**
+         * Adds a player to the game.
+         */
+        function addPlayer() {
+            const playerName = playerNameInput.value.trim();
+            if (playerName) {
+                if (players.includes(playerName)) {
+                    showCustomAlert('Player with this name already exists!', 'error');
+                } else {
+                    players.push(playerName);
+                    playerNameInput.value = '';
+                    renderPlayers();
+                    showCustomAlert(`Player '${playerName}' added!`, 'success');
+                }
+            } else {
+                 showCustomAlert('Player name cannot be empty!', 'error');
+            }
+        }
+        
+        /**
+         * Adds a custom truth to the list.
+         */
+        function addCustomTruth() {
+            const truth = customTruthInput.value.trim();
+            if (truth) {
+                customTruths.push(truth);
+                customTruthInput.value = '';
+                renderCustomChallenges();
+                showCustomAlert('Custom Truth added!', 'success');
+            } else {
+                showCustomAlert('Truth cannot be empty!', 'error');
+            }
+        }
+        
+        /**
+         * Adds a custom dare to the list.
+         */
+        function addCustomDare() {
+            const dare = customDareInput.value.trim();
+            if (dare) {
+                customDares.push(dare);
+                customDareInput.value = '';
+                renderCustomChallenges();
+                showCustomAlert('Custom Dare added!', 'success');
+            } else {
+                showCustomAlert('Dare cannot be empty!', 'error');
+            }
+        }
+
+        /**
+         * Starts the game by showing the main game card and hiding the initial controls.
+         */
+        function startGame() {
+            if (players.length < 2) {
+                showCustomAlert('You need at least 2 players to start!', 'error');
+                return;
+            }
+            playerModal.classList.remove('open');
+            initialControls.classList.add('hidden');
+            gameCard.classList.remove('hidden');
+            playerListContainer.classList.remove('hidden');
+            gameStarted = true;
+            
+            // Show the Home button
+            homeBtn.classList.remove('hidden');
+
+            spinForNextPlayer();
+        }
+
+        /**
+         * Updates the UI to show the current player and reset the challenge text.
+         */
+        function updateGameUI() {
+            if (!gameStarted) return;
+            
+            // Remove previous active classes
+            document.querySelectorAll('.player-tag').forEach(tag => {
+                tag.classList.remove('active', 'highlighted');
+            });
+            
+            // Highlight the current player
+            if (currentPlayerIndex !== -1 && players[currentPlayerIndex]) {
+                const playerTags = document.querySelectorAll('.player-tag');
+                playerTags[currentPlayerIndex].classList.add('active');
+            }
+            
+            // Show winner message and challenge buttons
+            currentPlayerTurnMessageEl.innerHTML = `Ab <span class="winner-text">${players[currentPlayerIndex]}</span> ki baari!`;
+            currentPlayerTurnMessageEl.style.display = 'block';
+            
+            challengeSection.classList.remove('hidden');
+            challengeTextEl.textContent = "Apni kismat chuno!";
+            challengeTextEl.classList.remove('text-primary-color', 'text-yellow-500'); // Clean up old colors
+            challengeTextEl.classList.add('challenge-text-animated');
+            
+            // Show Truth/Dare buttons, hide Spin button
+            truthBtn.classList.remove('hidden');
+            dareBtn.classList.remove('hidden');
+            spinBtn.classList.add('hidden');
+        }
+        
+        /**
+         * Gets a random challenge from the specified array, ensuring it's not a recent repeat.
+         * @param {string[]} challenges The array of challenges (truths or dares).
+         * @param {string[]} usedChallenges The array of recently used challenges.
+         * @returns {string} A random, non-repeating challenge.
+         */
+        function getRandomChallenge(challenges, usedChallenges) {
+            if (usedChallenges.length === challenges.length) {
+                // If all challenges have been used, reset the 'used' array
+                usedChallenges.length = 0;
+            }
+            let challenge;
+            do {
+                const randomIndex = Math.floor(Math.random() * challenges.length);
+                challenge = challenges[randomIndex];
+            } while (usedChallenges.includes(challenge));
+            
+            usedChallenges.push(challenge);
+            return challenge;
+        }
+
+        /**
+         * Selects and displays a random truth.
+         */
+        function showTruth() {
+            resetChallengeAnimations();
+            const allTruths = [...defaultTruths, ...customTruths];
+            const truth = getRandomChallenge(allTruths, truthsUsed);
+            challengeTextEl.textContent = truth;
+            challengeTextEl.classList.add('challenge-text-animated');
+            challengeTextEl.classList.add('text-[var(--accent-color-blue)]'); // Use blue for truth
+            
+            // Hide Truth/Dare buttons, show Spin button
+            truthBtn.classList.add('hidden');
+            dareBtn.classList.add('hidden');
+            spinBtn.classList.remove('hidden');
+        }
+
+        /**
+         * Selects and displays a random dare.
+         */
+        function showDare() {
+            resetChallengeAnimations();
+            const allDares = [...defaultDares, ...customDares];
+            const dare = getRandomChallenge(allDares, daresUsed);
+            challengeTextEl.textContent = dare;
+            challengeTextEl.classList.add('challenge-text-animated');
+            challengeTextEl.classList.add('text-[var(--accent-color-yellow)]'); // Use yellow for dare
+            
+            // Hide Truth/Dare buttons, show Spin button
+            truthBtn.classList.add('hidden');
+            dareBtn.classList.add('hidden');
+            spinBtn.classList.remove('hidden');
+        }
+        
+        /**
+         * Initiates the spinning animation to select the next player.
+         */
+        function spinForNextPlayer() {
+            if (isSpinning) return;
+            isSpinning = true;
+
+            // Disable buttons and show loading state
+            spinBtn.disabled = true;
+            spinBtn.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Ghoom raha hai...';
+            truthBtn.disabled = true;
+            dareBtn.disabled = true;
+            homeBtn.disabled = true; // Disable home button during spin
+
+            // Hide the challenge section
+            challengeSection.classList.add('hidden');
+            currentPlayerTurnMessageEl.style.display = 'none';
+            
+            // Get all player tags for animation
+            const playerTags = document.querySelectorAll('.player-tag');
+            
+            // Clear any previous active player
+            playerTags.forEach(tag => tag.classList.remove('active'));
+
+            let counter = 0;
+            const spinDuration = 5000; // 5 seconds
+            const startTime = Date.now();
+            let delay = 50;
+
+            function spinAnimation() {
+                // Check if game has been reset, if so, stop animation
+                if (!gameStarted) return;
+                
+                // Remove highlight from previous tag
+                if (counter > 0) {
+                    playerTags[(counter - 1) % players.length].classList.remove('highlighted');
+                }
+                
+                // Add highlight to current tag
+                playerTags[counter % players.length].classList.add('highlighted');
+                
+                counter++;
+                
+                if (Date.now() - startTime < spinDuration) {
+                    // Gradual slow down
+                    if (Date.now() - startTime > spinDuration * 0.7) {
+                        delay += 50;
+                    }
+                    setTimeout(spinAnimation, delay);
+                } else {
+                    // Animation ends, select the final player
+                    const randomIndex = Math.floor(Math.random() * players.length);
+                    
+                    // Stop animation and highlight the final winner
+                    playerTags.forEach(tag => tag.classList.remove('highlighted'));
+                    playerTags[randomIndex].classList.add('active');
+                    
+                    isSpinning = false;
+                    spinBtn.disabled = false;
+                    spinBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Ghumao!';
+                    truthBtn.disabled = false;
+                    dareBtn.disabled = false;
+                    homeBtn.disabled = false; // Enable home button
+                    
+                    currentPlayerIndex = randomIndex;
+                    updateGameUI();
+                }
+            }
+            spinAnimation();
+        }
+
+
+        // --- Event Listeners ---
+
+        openPlayerModalBtn.addEventListener('click', () => {
+            playerModal.classList.add('open');
+            renderPlayers();
+        });
+        
+        openCustomModalBtn.addEventListener('click', () => {
+            customModal.classList.add('open');
+            renderCustomChallenges(); // Render the challenges when the modal opens
+        });
+
+        // Close button for custom challenges modal
+        closeCustomModalBtn.addEventListener('click', () => {
+            customModal.classList.remove('open');
+        });
+
+        // Close button for the player modal
+        closePlayerModalBtn.addEventListener('click', () => {
+            playerModal.classList.remove('open');
+        });
+        
+        // Use the same button to save/close the custom modal
+        saveCustomModalBtn.addEventListener('click', () => {
+            customModal.classList.remove('open');
+            showCustomAlert('Apke challenges save ho gaye hain!', 'success');
+        });
+
+        addPlayerBtn.addEventListener('click', addPlayer);
+
+        playerNameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // Prevent form submission
+                addPlayer();
+            }
+        });
+        
+        addCustomTruthBtn.addEventListener('click', addCustomTruth);
+        customTruthInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addCustomTruth();
+            }
+        });
+
+        addCustomDareBtn.addEventListener('click', addCustomDare);
+        customDareInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addCustomDare();
+            }
+        });
+
+        startGameBtn.addEventListener('click', startGame);
+        homeBtn.addEventListener('click', resetGame); // New event listener for the Home button
+
+        // Use event delegation for the 'remove-player' buttons in the modal
+        playersListModal.addEventListener('click', (e) => {
+            if (e.target.closest('.remove-player')) {
+                const index = parseInt(e.target.closest('.remove-player').dataset.index);
+                players.splice(index, 1);
+                renderPlayers();
+            }
+        });
+        
+        // Event delegation for removing custom truths and dares
+        customTruthsList.addEventListener('click', (e) => {
+            if (e.target.closest('.remove-custom-truth')) {
+                const index = parseInt(e.target.closest('.remove-custom-truth').dataset.index);
+                customTruths.splice(index, 1);
+                renderCustomChallenges();
+            }
+        });
+
+        customDaresList.addEventListener('click', (e) => {
+            if (e.target.closest('.remove-custom-dare')) {
+                const index = parseInt(e.target.closest('.remove-custom-dare').dataset.index);
+                customDares.splice(index, 1);
+                renderCustomChallenges();
+            }
+        });
+
+        truthBtn.addEventListener('click', showTruth);
+        dareBtn.addEventListener('click', showDare);
+        spinBtn.addEventListener('click', spinForNextPlayer);
+        
+        // Initial setup
+        renderPlayers();
+        renderCustomChallenges();
+    </script>
+</body>
+</html>
