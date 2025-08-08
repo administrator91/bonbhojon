@@ -19,18 +19,28 @@
             --background-color: #fce4ec; /* Pinkish-cream background */
         }
         
-       /* Apply the font and background */
-        body {
-            font-family: 'Balsamiq Sans', cursive;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            background-image: url('assets/td.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            overscroll-behavior: none; /* Prevent body scroll on mobile */
-            position: relative;
-        }
+               body {
+    font-family: 'Balsamiq Sans', cursive;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    background-image: url('/assets/td.jpg'); /* ✅ Ensure image path is correct */
+    background-size: cover;
+    background-position: center;
+    background-attachment: scroll; /* ✅ scroll instead of fixed to support mobile */
+    overscroll-behavior: none;
+    position: relative;
+    overflow-x: hidden; /* ✅ Prevent horizontal scroll */
+}
+@media only screen and (max-width: 768px) {
+    html, body {
+        overflow-x: hidden;
+        max-width: 100%;
+    }
+
+    body {
+        background-attachment: scroll !important; /* ✅ prevents flickering on phones */
+    }
+}
 
         /* Overlay to make text readable on top of the background image */
         body::before {
@@ -1183,5 +1193,6 @@
     </script>
 </body>
 </html>
+
 
 
