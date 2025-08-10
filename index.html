@@ -454,6 +454,26 @@
 }
 /* #############################  GAME PLAY BUTTON END  ########################## */
 
+
+
+
+/* #############################  HERO SECTION ADD (ONLY FOR VIDEO)  ########################## */
+#hero-video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1; /* keeps it behind content */
+}
+
+#hero-bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/* #############################  HERO SECTION ADD (ONLY FOR VIDEO)  END ########################## */
         
         
     </style>
@@ -529,9 +549,20 @@
    <!-- Hero Section -->
     <section class="h-screen flex items-center justify-center text-center relative overflow-hidden">
         <!-- Hero image with zoom animation -->
+
+         <!-- 👇👇👇👇👇 IMAGE SECTION
         <div class="hero-img-container">
              <img src="https://wallpapercave.com/wp/wp10322913.jpg" alt="Animated food hero">
         </div>
+         -->
+
+        <!-- Hero Video Container -->
+<div id="hero-video-container">
+    <video autoplay muted loop playsinline id="hero-bg-video">
+        <source src="assets/v2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
         <!-- Hero content overlay -->
         <div class="absolute bg-[var(--card-background)] bg-opacity-90 p-8 md:p-12 rounded-[50px] shadow-2xl card-animation z-10 fade-in-up" style="animation-delay: 0.5s;">
             <h1 class="text-5xl md:text-7xl lg:text-9xl font-extrabold text-[var(--primary-color)] leading-none">🍽️ BonBhojon</h1>
@@ -1208,6 +1239,7 @@
 
 </body>
 </html>
+
 
 
 
