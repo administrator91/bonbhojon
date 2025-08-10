@@ -391,6 +391,70 @@
 
         
 
+
+/* #############################  GAME PLAY BUTTON START  ########################## */
+.play-now-btn {
+  background: linear-gradient(45deg, #ff7b54, #ffb347); /* BonBhojon-style orange gradient */
+  color: white;
+  text-align: center;
+  padding: 12px 32px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  display: inline-block;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(255, 123, 84, 0.6);
+  animation: pulseGlow 1.5s infinite ease-in-out;
+  transition: transform 0.2s;
+}
+
+.play-now-btn:hover {
+  transform: scale(1.05);
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 123, 84, 0.6),
+                0 0 20px rgba(255, 179, 71, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 123, 84, 0.9),
+                0 0 40px rgba(255, 179, 71, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(255, 123, 84, 0.6),
+                0 0 20px rgba(255, 179, 71, 0.5);
+  }
+}
+
+.rainbow-border {
+  position: relative;
+  display: inline-block;
+  border-radius: 20px; /* slight rounded corners */
+  overflow: hidden;
+  padding: 5px; /* thin border space */
+  background: linear-gradient(270deg, 
+              #ff0000, #ff7f00, #ffff00, 
+              #00ff00, #0000ff, #4b0082, #8f00ff);
+  background-size: 1400% 1400%;
+  animation: rainbowMove 8s linear infinite;
+}
+
+@keyframes rainbowMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.rainbow-border img {
+  display: block;
+  border-radius: 15px; /* match inner image corners */
+  width: 100%;
+  height: auto;
+}
+/* #############################  GAME PLAY BUTTON END  ########################## */
+
+        
         
     </style>
 </head>
@@ -423,21 +487,21 @@
 
             <!-- Desktop navigation menu -->
             <div id="navigation-menu" class="hidden md:flex md:space-x-6 text-[var(--text-color)] font-bold">
-                <a href="#about" class="nav-button">About</a>
-                <a href="#menu" class="nav-button">Menu</a>
-                <a href="#feedback" class="nav-button">Feedback</a>
-                <a href="truth-dare.html" class="nav-button">Truth or Dare</a>
-                <a href="#contact" class="nav-button">Contact</a>
+                <a href="#about" class="nav-button">ℹ️ About</a>
+                <a href="#menu" class="nav-button">🍔 Menu</a>
+                <a href="truth-dare.html" class="nav-button">🎲 Truth or Dare</a>
+                <a href="#feedback" class="nav-button">⭐ Feedback</a>
+                <a href="#contact" class="nav-button">📞 Contact</a>
             </div>
         </nav>
         
         <!-- Mobile navigation dropdown menu -->
         <div id="mobile-navigation" class="hidden md:hidden bg-[var(--background-color)] bg-opacity-90 shadow-lg p-4 text-center space-y-4">
-            <a href="#about" class="block text-[var(--text-color)] text-xl font-bold p-2 hover:bg-[var(--primary-color)] hover:text-white rounded-md transition-all duration-300">About</a>
-            <a href="#menu" class="block text-[var(--text-color)] text-xl font-bold p-2 hover:bg-[var(--primary-color)] hover:text-white rounded-md transition-all duration-300">Menu</a>
-            <a href="#feedback" class="block text-[var(--text-color)] text-xl font-bold p-2 hover:bg-[var(--primary-color)] hover:text-white rounded-md transition-all duration-300">Feedback</a>
-            <a href="truth-dare.html" class="block text-[var(--text-color)] text-xl font-bold p-2 hover:bg-[var(--primary-color)] hover:text-white rounded-md transition-all duration-300">Truth or Dare</a>
-            <a href="#contact" class="block text-[var(--text-color)] text-xl font-bold p-2 hover:bg-[var(--primary-color)] hover:text-white rounded-md transition-all duration-300">Contact</a>
+            <a href="#about" class="block text-[var(--text-color)] text-xl font-bold p-2 hover:bg-[var(--primary-color)] hover:text-white rounded-md transition-all duration-300">ℹ️ About</a>
+            <a href="#menu" class="block text-[var(--text-color)] text-xl font-bold p-2 hover:bg-[var(--primary-color)] hover:text-white rounded-md transition-all duration-300">🍔 Menu</a>
+            <a href="#feedback" class="block text-[var(--text-color)] text-xl font-bold p-2 hover:bg-[var(--primary-color)] hover:text-white rounded-md transition-all duration-300">⭐ Feedback</a>
+            <a href="truth-dare.html" class="block text-[var(--text-color)] text-xl font-bold p-2 hover:bg-[var(--primary-color)] hover:text-white rounded-md transition-all duration-300">🎲 Truth or Dare</a>
+            <a href="#contact" class="block text-[var(--text-color)] text-xl font-bold p-2 hover:bg-[var(--primary-color)] hover:text-white rounded-md transition-all duration-300">📞 Contact</a>
         </div>
     </header>
 
@@ -526,6 +590,50 @@
             </div>
         </div>
     </section>
+
+
+    <!-- ############################### Truth & Dare Game Section ############################## -->
+<section id="truth-dare" class="py-16 px-4 md:px-8 bg-[var(--secondary-color)] bg-opacity-20">
+    <div class="container mx-auto grid md:grid-cols-2 gap-12 items-center">
+        
+        <!-- Text Content -->
+        <div class="space-y-6 fade-in-left" style="animation-delay: 0.2s;">
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[var(--primary-color)]">
+                🎯 Truth & Dare @BonBhojon
+            </h2>
+            <p class="text-base md:text-lg lg:text-xl leading-relaxed text-[var(--text-color)]">
+                At BonBhojon, we don’t just serve food – we serve moments!  
+                Introducing our fun-filled <strong>Truth & Dare</strong> game corner where friends, family, 
+                and even strangers can share laughs, secrets, and challenges while enjoying our tasty dishes.  
+            </p>
+            <p class="text-base md:text-lg lg:text-xl leading-relaxed text-[var(--text-color)]">
+                Whether you pick a <span class="text-[var(--primary-color)] font-bold">Truth</span> to reveal something interesting or 
+                a <span class="text-[var(--accent-color)] font-bold">Dare</span> to do something silly –  
+                every moment becomes a story to remember.  
+                Perfect for keeping the fun alive while waiting for your orders.
+            </p>
+            <p class="text-base md:text-lg lg:text-xl leading-relaxed text-[var(--text-color)]">
+                So next time you visit, don’t just eat… play, laugh, and make memories that taste as good as our food!
+            </p>
+        </div>
+
+        <!-- Cartoon Image -->
+<div class="p-4 card-animation fade-in-right" style="animation-delay: 0.4s;">
+    <div class="rainbow-border">
+        <img src="assets/td2.png" 
+             alt="Truth or Dare Game Cartoon">
+    </div>
+</div>
+        <a href="truth-dare.html" class="play-now-btn">
+  <i class="fas fa-play" style="margin-right: 6px;"></i> Play Now
+</a>
+    </div>
+</section>
+<!-- ############################### Truth & Dare Game Section END ############################## -->
+
+
+
+    
 
     <!-- Feedback Section -->
     <section id="feedback" class="py-16 px-4 md:px-8 bg-[var(--text-color)] text-white">
@@ -1100,6 +1208,7 @@
 
 </body>
 </html>
+
 
 
 
